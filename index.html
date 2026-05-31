@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مصنع الزخرف للحديد | AL-Zakhrof Iron Factory</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dist/js/stPageFlip.css" />
+  <style>
+    #flipbook-container {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin: 0 auto;
+      padding: 20px;
+
+    }
+
+    #flipbook {
+      width: 800px;
+      height: 600px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      margin: 0 auto;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 2px solid #f0f0f0;
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      transition: transform 0.3s ease;
+      background-color: #f8f9fa;
+    }
+
+    .page:hover img {
+      transform: scale(1.02);
+    }
+
+    /* تحسين عرض الصور مع معلومات */
+    .page-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    /* خيارات مختلفة لعرض الصور */
+    .page img.fit-contain {
+      object-fit: contain;
+      max-width: 95%;
+      max-height: 95%;
+      width: auto;
+      height: auto;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .page img.fit-cover {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page img.fit-fill {
+      object-fit: fill;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* تحسين جودة الصور */
+    .page img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
+
+    .page-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      color: white;
+      padding: 15px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .page:hover .page-overlay {
+      transform: translateY(0);
+    }
+
+    .page-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .page-description {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .cover,
+    .back-cover {
+      background: linear-gradient(135deg, #1a237e, #283593, #3949ab);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2rem;
+      padding: 20px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* تصميم الغلاف الأمامي */
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+      opacity: 0.8;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .cover-header {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .company-logo {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .company-name-en {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+      color: #ffffff;
+    }
+
+    .company-name-ar {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      color: #e3f2fd;
+    }
+
+    .cover-line {
+      width: 80%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+      margin: 10px 0;
+    }
+
+    .cover-middle {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .catalog-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #ffd700;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .catalog-subtitle {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      opacity: 0.9;
+      font-style: italic;
+    }
+
+    .cover-features {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .feature-item i {
+      font-size: 1.2rem;
+      color: #ffd700;
+    }
+
+    .cover-footer {
+      flex: 0.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+
+    .established {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .cover-pattern {
+      width: 100%;
+      height: 20px;
+      background: repeating-linear-gradient(90deg,
+          transparent,
+          transparent 10px,
+          rgba(255, 215, 0, 0.3) 10px,
+          rgba(255, 215, 0, 0.3) 20px);
+      opacity: 0.5;
+    }
+
+    .back-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(-45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+      opacity: 0.8;
+    }
+
+    .back-cover-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .back-header {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .back-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      color: #ffd700;
+    }
+
+    .thank-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .back-middle {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .company-info h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    .company-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #e3f2fd;
+    }
+
+    .back-line {
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+      margin: 15px auto;
+    }
+
+    .quality-text {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: #ffd700;
+      font-weight: 600;
+    }
+
+    .quality-en {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .back-footer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .contact-item i {
+      color: #ffd700;
+      font-size: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      background: #00796b;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    button:disabled:hover {
+      background: #ccc;
+      transform: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background: #004d40;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* تحسينات بسيطة للكتاب */
+    .stf__parent {
+      perspective: 1500px;
+    }
+
+    /* تحسينات الصور للشاشات المختلفة */
+    @media (max-width: 768px) {
+      .page-overlay {
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+
+      .page-title {
+        font-size: 1rem;
+      }
+
+      .page-description {
+        font-size: 0.8rem;
+      }
+
+      .back-cover h1 {
+        font-size: 2rem;
+      }
+
+      .back-cover p {
+        font-size: 1rem;
+      }
+
+      /* تحسينات الغلاف للموبايل */
+      .company-logo {
+        font-size: 2.5rem;
+      }
+
+      .company-name-en {
+        font-size: 1.8rem;
+      }
+
+      .company-name-ar {
+        font-size: 1.4rem;
+      }
+
+      .catalog-title {
+        font-size: 1.2rem;
+      }
+
+      .catalog-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .cover-features {
+        gap: 10px;
+      }
+
+      .feature-item {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-overlay {
+        padding: 8px;
+        font-size: 0.8rem;
+      }
+
+      .page-title {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+      }
+
+      .page-description {
+        font-size: 0.7rem;
+      }
+
+      .back-cover h1 {
+        font-size: 1.5rem;
+      }
+
+      .back-cover p {
+        font-size: 0.9rem;
+      }
+
+      /* تحسينات الغلاف للشاشات الصغيرة */
+      .company-logo {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .company-name-en {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+      }
+
+      .company-name-ar {
+        font-size: 1.1rem;
+      }
+
+      .catalog-title {
+        font-size: 1rem;
+      }
+
+      .catalog-subtitle {
+        font-size: 0.8rem;
+      }
+
+      .cover-features {
+        gap: 8px;
+      }
+
+      .feature-item {
+        font-size: 0.6rem;
+      }
+
+      .feature-item i {
+        font-size: 1rem;
+      }
+
+      .established {
+        font-size: 0.7rem;
+      }
+    }
+
+    /* تحسين التجاوب */
+    @media (max-width: 1024px) {
+      #flipbook {
+        width: 700px;
+        height: 500px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #flipbook-container {
+        max-width: 100%;
+        padding: 15px;
+      }
+
+      #flipbook {
+        width: 600px;
+        height: 450px;
+      }
+
+      .controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 120px;
+      }
+
+      #page-indicator {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      #flipbook {
+        width: 500px;
+        height: 375px;
+      }
+
+      .cover,
+      .back-cover {
+        font-size: 1.5rem;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      #flipbook {
+        width: 400px;
+        height: 300px;
+      }
+
+      .controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      button {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      #flipbook-container {
+        padding: 10px;
+      }
+
+      #flipbook {
+        width: 320px;
+        height: 240px;
+      }
+
+      .cover,
+      .back-cover {
+        font-size: 1.2rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- شريط التنقل العلوي   -->
+  <header class="header">
+    <div class="container">
+      <div class="logo-container">
+        <img src="images/logo.png" alt="شعار مصنع الزخرف" class="logo" id="logo-placeholder">
+        <h1 class="company-name">AL-Zakhrof factory</h1>
+      </div>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+          <li><a href="#about" class="nav-link">من نحن</a></li>
+          <li><a href="#documents" class="nav-link">الوثائق</a></li>
+          <li><a href="#accreditation" class="nav-link">الاعتمادات</a></li>
+          <li><a href="#projects" class="nav-link">مشاريعنا</a></li>
+        </ul>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <div class="language-switcher">
+          <span>AR</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- قسم الهيرو  -->
+  <section id="home" class="hero-section">
+    <div class="hero-slider">
+      <div class="slide active" style="background-image: url('images/hero1.png');">
+        <div class="slide-content">
+          <h2>الريادة في صناعة الحديد</h2>
+          <p>جودة لا تضاهى وخبرة تزيد عن 25 عاماً في مجال الصناعات الحديدية</p>
+          <a href="#about" class="btn btn-primary">تعرف علينا</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('images/hero2.png');">
+        <div class="slide-content">
+          <h2>حلول متكاملة للبناء</h2>
+          <p>نقدم حلولاً مبتكرة تلبي احتياجات مشاريعك الكبرى</p>
+          <a href="#about" class="btn btn-primary">تعرف علينا</a>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn prev-btn"><i class="fas fa-chevron-right"></i></button>
+        <div class="slider-dots"></div>
+        <button class="slider-btn next-btn"><i class="fas fa-chevron-left"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم من نحن -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>من نحن</h2>
+      <div class="about-content">
+        <div class="image-slider">
+          <div class="slider-container">
+            <img src="images/about/1.jpg" class="active">
+            <img src="images/about/2.jpg">
+            <img src="images/about/3.jpg">
+            <img src="images/about/4.jpg">
+            <img src="images/about/5.jpg">
+            <img src="images/about/6.jpg">
+            <img src="images/about/7.jpg">
+            <img src="images/about/8.jpg">
+          </div>
+          <button class="slider-btn prev"><i class="fas fa-chevron-right"></i></button>
+          <button class="slider-btn next"><i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="about-text">
+          <p>تأسس مصنع الزخرف للحديد في عام 1995، ونحن نفتخر بأننا من الرواد في مجال صناعة الحديد والمنتجات المعدنية في
+            المنطقة. نقدم منتجات عالية الجودة تلبي أعلى المعايير الدولية.</p>
+          <p>بخبرة تزيد عن ربع قرن، استطعنا بناء سمعة ممتازة في السوق المحلي والدولي، حيث نلتزم بالجودة والدقة في كل
+            منتج نقدمه لعملائنا الكرام.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم الوثائق -->
+  <section id="documents" class="section">
+    <div class="container">
+      <h2>الوثائق الرسمية</h2>
+      <div class="documents-slider">
+        <div class="slider-container">
+          <img src="images/doc/1.png" class="active">
+          <img src="images/doc/2.jpg">
+          <img src="images/doc/3.jpg">
+          <img src="images/doc/4.jpg">
+          <img src="images/doc/5.jpg">
+          <img src="images/doc/6.jpg">
+          <img src="images/doc/7.jpg">
+          <img src="images/doc/8.jpg">
+          <img src="images/doc/9.jpg">
+          <img src="images/doc/10.jpg">
+          <img src="images/doc/11.jpg">
+          <img src="images/doc/12.jpg">
+          <img src="images/doc/13.jpg">
+          <img src="images/doc/14.jpg">
+          <img src="images/doc/15.jpg">
+          <img src="images/doc/16.jpg">
+          <img src="images/doc/17.jpg">
+          <img src="images/doc/18.jpg">
+          <img src="images/doc/19.jpg">
+        </div>
+        <button class="slider-btn prev"><i class="fas fa-chevron-right"></i></button>
+        <button class="slider-btn next"><i class="fas fa-chevron-left"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم الاعتمادات -->
+  <section id="accreditation" class="section">
+    <div class="container">
+      <h2>الاعتمادات الرسمية</h2>
+      <div class="accreditation-slider">
+        <div class="slider-container">
+          <img src="images/pap/1.jpg" class="active">
+          <img src="images/pap/2.jpg">
+          <img src="images/pap/3.jpg">
+          <img src="images/pap/4.jpg">
+          <img src="images/pap/5.jpg">
+          <img src="images/pap/6.jpg">
+          <img src="images/pap/7.jpg">
+          <img src="images/pap/8.jpg">
+          <img src="images/pap/9.jpg">
+          <img src="images/pap/10.jpg">
+          <img src="images/pap/11.jpg">
+          <img src="images/pap/12.jpg">
+          <img src="images/pap/13.jpg">
+          <img src="images/pap/14.jpg">
+          <img src="images/pap/15.jpg">
+          <img src="images/pap/16.jpg">
+          <img src="images/pap/17.jpg">
+          <img src="images/pap/18.jpg">
+          <img src="images/pap/19.jpg">
+          <img src="images/pap/20.jpg">
+          <img src="images/pap/21.jpg">
+          <img src="images/pap/22.jpg">
+          <img src="images/pap/23.jpg">
+        </div>
+        <button class="slider-btn prev"><i class="fas fa-chevron-right"></i></button>
+        <button class="slider-btn next"><i class="fas fa-chevron-left"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم مشاريعنا -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2>مشاريعنا</h2>
+      <div class="projects-grid">
+
+        <div id="flipbook-container">
+          <div id="flipbook">
+            <!-- الغلاف الأمامي -->
+            <div class="page cover">
+              <div class="cover-content">
+                <div class="cover-header">
+                  <div class="company-logo">
+                    <i class="fas fa-industry"></i>
+                  </div>
+                  <h1 class="company-name-en">AL-Zakhrof Factory</h1>
+                  <h2 class="company-name-ar">مصنع الزخرف للحديد</h2>
+                  <div class="cover-line"></div>
+                </div>
+
+                <div class="cover-middle">
+                  <h3 class="catalog-title">كتالوج المشاريع</h3>
+                  <p class="catalog-subtitle">Projects Catalog</p>
+                  <div class="cover-features">
+                    <div class="feature-item">
+                      <i class="fas fa-hammer"></i>
+                      <span>تصنيع وتركيب</span>
+                    </div>
+                    <div class="feature-item">
+                      <i class="fas fa-cogs"></i>
+                      <span>جودة عالية</span>
+                    </div>
+                    <div class="feature-item">
+                      <i class="fas fa-award"></i>
+                      <span>خبرة متميزة</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cover-footer">
+                  <div class="established">تأسس عام 1995</div>
+                  <div class="cover-pattern"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- صفحات المشاريع -->
+
+            <!-- المشروع الأول -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/13-1.jpg" alt="مشروع 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 1</div>
+                  <div class="page-description">أعمال الحديد والصلب المتخصصة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الثاني -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/2-1.jpg" alt="مشروع 2 - جزء 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 2 - الجزء الأول</div>
+                  <div class="page-description">تصنيع وتركيب الهياكل المعدنية</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/2-2.jpg" alt="مشروع 2 - جزء 2" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 2 - الجزء الثاني</div>
+                  <div class="page-description">التشطيبات النهائية والتفاصيل</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الثالث -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/3-1.jpg" alt="مشروع 3 - جزء 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 3 - الجزء الأول</div>
+                  <div class="page-description">أعمال الحديد المسلح والخرسانة</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/3.jpg" alt="مشروع 3 - جزء 2" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 3 - الجزء الثاني</div>
+                  <div class="page-description">الهيكل النهائي والتشطيبات</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الرابع -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/4.jpg" alt="مشروع 4" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 4</div>
+                  <div class="page-description">أعمال التصنيع والتركيب المتقدمة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الخامس -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/5-1.jpg" alt="مشروع 5 - جزء 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 5 - الجزء الأول</div>
+                  <div class="page-description">الأساسات والهياكل الأولية</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/5-2.jpg" alt="مشروع 5 - جزء 2" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 5 - الجزء الثاني</div>
+                  <div class="page-description">التشطيبات والتفاصيل النهائية</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع السادس -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/6-1.jpg" alt="مشروع 6" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 6</div>
+                  <div class="page-description">أعمال الحديد الزخرفي والديكوري</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع السابع -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/7-1.jpg" alt="مشروع 7" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 7</div>
+                  <div class="page-description">تصنيع وتركيب الأبواب والنوافذ المعدنية</div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- المشاريع المتبقية -->
+
+            <!-- المشروع الثامن -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/8-1.jpg" alt="مشروع 8" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 8</div>
+                  <div class="page-description">أعمال الحديد الصناعي والمعدات</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع التاسع -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/9-1.jpg" alt="مشروع 9" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 9</div>
+                  <div class="page-description">تصنيع الهياكل المعدنية الكبيرة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع العاشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/10-1.jpg" alt="مشروع 10" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 10</div>
+                  <div class="page-description">أعمال اللحام والتشكيل المتقدمة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الحادي عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/11-1.jpg" alt="مشروع 11" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 11</div>
+                  <div class="page-description">تركيب الأنظمة المعدنية المعقدة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الثاني عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/12-1.jpg" alt="مشروع 12" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 12</div>
+                  <div class="page-description">أعمال الحديد المقاوم للصدأ</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الثالث عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/13-1.jpg" alt="مشروع 13" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 13</div>
+                  <div class="page-description">تصنيع المكونات الصناعية</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الرابع عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/14-1.jpg" alt="مشروع 14" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 14</div>
+                  <div class="page-description">أعمال الحديد الإنشائي</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع الخامس عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/15-1.jpg" alt="مشروع 15" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 15</div>
+                  <div class="page-description">تركيب الأنظمة المعدنية المتطورة</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع السادس عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/16-1.jpg" alt="مشروع 16 - جزء 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 16 - الجزء الأول</div>
+                  <div class="page-description">التصميم والتخطيط الأولي</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/16-2.jpg" alt="مشروع 16 - جزء 2" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 16 - الجزء الثاني</div>
+                  <div class="page-description">التنفيذ والتشطيبات النهائية</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- المشروع السابع عشر -->
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/17-1.jpg" alt="مشروع 17 - جزء 1" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 17 - الجزء الأول</div>
+                  <div class="page-description">أعمال الحديد الثقيل والمعدات</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="page">
+              <div class="page-content">
+                <img src="images/project/17-2.jpg" alt="مشروع 17 - جزء 2" class="fit-contain">
+                <div class="page-overlay">
+                  <div class="page-title">مشروع رقم 17 - الجزء الثاني</div>
+                  <div class="page-description">التشطيبات والاختبارات النهائية</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- الغلاف الخلفي -->
+            <div class="page back-cover">
+              <div class="back-cover-content">
+                <div class="back-header">
+                  <h1>شكراً لكم</h1>
+                  <p class="thank-subtitle">Thank You</p>
+                </div>
+
+                <div class="back-middle">
+                  <div class="company-info">
+                    <h2>AL-Zakhrof Factory</h2>
+                    <h3>مصنع الزخرف للحديد</h3>
+                    <div class="back-line"></div>
+                    <p class="quality-text">جودة وإتقان منذ 1995</p>
+                    <p class="quality-en">Quality & Excellence Since 1995</p>
+                  </div>
+                </div>
+
+                <div class="back-footer">
+                  <div class="contact-info">
+                    <div class="contact-item">
+                      <i class="fas fa-phone"></i>
+                      <span>للاستفسار والتواصل</span>
+                    </div>
+                    <div class="contact-item">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>خدماتنا في جميع أنحاء المملكة</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- أزرار التنقل -->
+          <div class="controls">
+            <button id="next-btn">
+              <i class="fas fa-chevron-right"></i>
+              التالي
+
+            </button>
+
+            <div id="page-indicator" style="
+        background: rgba(255,255,255,0.9);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: #333;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        font-family: 'Tajawal', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+      ">
+              <span id="current-page">1</span> / <span id="total-pages">1</span>
+            </div>
+            <button id="prev-btn">
+
+              السابق
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+
+
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+  </section>
+
+  <!-- تذييل الصفحة من v1 -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="images/logo.png" alt="شعار مصنع الزخرف">
+          <h3>مصنع الزخرف للحديد</h3>
+        </div>
+        <div class="footer-info">
+          <p><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</p>
+          <p><i class="fas fa-phone"></i> +966 12 345 6789</p>
+          <p><i class="fas fa-envelope"></i> info@alzakhrof.com</p>
+        </div>
+        <div class="social-media">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 مصنع الزخرف للحديد. جميع الحقوق محفوظة.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+
+  <!-- PageFlip JS -->
+  <script src="./dist/js/page-flip.browser.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const flipbook = document.getElementById('flipbook');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+
+      // دالة لحساب حجم الكتاب حسب الشاشة
+      function getBookSize() {
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth <= 420) {
+          return { width: 320, height: 240 };
+        } else if (screenWidth <= 520) {
+          return { width: 400, height: 300 };
+        } else if (screenWidth <= 640) {
+          return { width: 500, height: 375 };
+        } else if (screenWidth <= 768) {
+          return { width: 600, height: 450 };
+        } else if (screenWidth <= 1024) {
+          return { width: 700, height: 500 };
+        } else {
+          return { width: 800, height: 600 };
+        }
+      }
+
+      const bookSize = getBookSize();
+
+      const pageFlip = new St.PageFlip(flipbook, {
+        width: bookSize.width / 2,
+        height: bookSize.height,
+        size: 'fixed',
+        showCover: true,
+        rtl: true,
+        useMouseEvents: true,
+        maxShadowOpacity: 0.5,
+        drawShadow: true,
+        flippingTime: 1000,
+        mobileScrollSupport: true,
+        disableFlipByClick: false,
+        showPageCorners: true,
+        clickEventForward: true,
+      });
+
+      // تحسين تحميل الصور
+      const images = document.querySelectorAll('.page img');
+      images.forEach(img => {
+        img.addEventListener('load', function () {
+          this.style.opacity = '1';
+        });
+
+        img.addEventListener('error', function () {
+          this.style.background = '#f0f0f0';
+          this.alt = 'لم يتم تحميل الصورة';
+        });
+
+        // إضافة تأثير التحميل
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.3s ease';
+      });
+
+      pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+      prevBtn.addEventListener('click', () => {
+        pageFlip.flipPrev();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        pageFlip.flipNext();
+      });
+
+      // التحكم بلوحة المفاتيح
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          pageFlip.flipPrev();
+        } else if (e.key === 'ArrowRight') {
+          pageFlip.flipNext();
+        } else if (e.key === 'Home') {
+          pageFlip.turnToPage(0);
+        } else if (e.key === 'End') {
+          pageFlip.turnToPage(pageFlip.getPageCount() - 1);
+        }
+      });
+
+
+
+      // تحديث أزرار التنقل ومؤشر الصفحة
+      function updateNavigationButtons() {
+        const currentPage = pageFlip.getCurrentPageIndex();
+        const totalPages = pageFlip.getPageCount();
+
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+
+        // تحديث مؤشر الصفحة
+        document.getElementById('current-page').textContent = currentPage + 1;
+        document.getElementById('total-pages').textContent = totalPages;
+      }
+
+      // تحديث الأزرار عند تقليب الصفحات
+      pageFlip.on('flip', updateNavigationButtons);
+
+      // تحديث أولي للأزرار
+      setTimeout(updateNavigationButtons, 100);
+
+      // إعادة تحجيم الكتاب عند تغيير حجم الشاشة
+      let resizeTimeout;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+          const newSize = getBookSize();
+          flipbook.style.width = newSize.width + 'px';
+          flipbook.style.height = newSize.height + 'px';
+        }, 250);
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>
